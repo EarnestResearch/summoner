@@ -15,6 +15,7 @@ import Summoner.Template.Cabal (cabalFile)
 import Summoner.Template.Doc (docFiles)
 import Summoner.Template.GitHub (gitHubFiles)
 import Summoner.Template.Haskell (haskellFiles)
+import Summoner.Template.Makefile (makefileFile)
 import Summoner.Template.Mempty (memptyIfFalse)
 import Summoner.Template.Stack (stackFiles)
 import Summoner.Tree (TreeFs (..), insertTree)
@@ -30,6 +31,7 @@ createProjectTemplate settings@Settings{..} = Dir
     generatedFiles = concat
         [ cabal
         , stack
+        , makefile
         , haskell
         , docs
         , gitHub
@@ -38,6 +40,7 @@ createProjectTemplate settings@Settings{..} = Dir
     cabal, stack :: [TreeFs]
     cabal = [cabalFile settings]
     stack = memptyIfFalse settingsStack $ stackFiles settings
+    makefile = memptyIfFalse settingsMakefile $ [makefileFile settings]
 
     haskell, docs, gitHub :: [TreeFs]
     haskell = haskellFiles settings

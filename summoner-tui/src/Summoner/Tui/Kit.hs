@@ -57,6 +57,7 @@ module Summoner.Tui.Kit
        , ghcs
        , preludeName
        , preludeModule
+       , makefile
 
          -- ** GitHub
        , enabled
@@ -126,6 +127,7 @@ data ProjectMeta = ProjectMeta
     , projectMetaGhcs          :: ![GhcVer]  -- ^ Default GHC version is always added.
     , projectMetaPreludeName   :: !Text
     , projectMetaPreludeModule :: !Text
+    , projectMetaMakefile      :: !Bool
     } deriving stock (Show)
 
 -- | Github specific information.
@@ -186,6 +188,7 @@ summonKitToSettings sk = Settings
     , settingsStack          = sk ^. stack
     , settingsNoUpload       = sk ^. gitHub . noUpload
     , settingsFiles          = sk ^. extraFiles
+    , settingsMakefile       = sk ^. projectMeta . makefile
     }
   where
     isGitHub :: Bool
@@ -242,6 +245,7 @@ configToSummonKit cRepo cConnectMode cConfigFile files ConfigP{..} = SummonKit
         , projectMetaGhcs = List.delete defaultGHC cGhcVer
         , projectMetaPreludeName = kitPreludeName
         , projectMetaPreludeModule = kitPreludeModule
+        , projectMetaMakefile = decisionToBool cMakefile
         }
     , summonKitCabal = kitCabal
     , summonKitStack = kitStack

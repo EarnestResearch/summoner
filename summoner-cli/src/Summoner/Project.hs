@@ -125,6 +125,8 @@ generateProjectInteractive connectMode projectName ConfigP{..} = do
 
     settingsFiles <- fetchSources connectMode cFiles
 
+    settingsMakefile <- promptDecisionToBool cMakefile (mkDefaultYesNoPrompt "makefile")
+
     -- Create project data from all variables in scope
     -- and make a project from it.
     initializeProject Settings{..}
@@ -253,6 +255,7 @@ generateProjectNonInteractive connectMode projectName ConfigP{..} = do
     let settingsGitignore  = cGitignore
     let settingsTestedVersions = sortNub $ defaultGHC : cGhcVer
     settingsFiles <- fetchSources connectMode cFiles
+    let settingsMakefile   = decisionToBool cMakefile
 
     -- Create project data from all variables in scope
     -- and make a project from it.

@@ -57,6 +57,7 @@ data SummonForm
     | Exe
     | Test
     | Bench
+    | Makefile
     | CustomPreludeName
     | CustomPreludeModule
     | Ghcs
@@ -102,6 +103,7 @@ mkForm sk = setFormConcat arrangeColumns $ newForm
         , 1 |> checkboxField (projectMeta . exe) Exe "Executable"
         , 1 |> checkboxField (projectMeta . test) Test "Tests"
         , 2 |> checkboxField (projectMeta . bench) Bench "Benchmarks"
+        , 2 |> checkboxField (projectMeta . makefile) Makefile "Makefile"
         , 1 |> strField "Custom prelude"
         , 1 |> label "Name   " @@= editTextField (projectMeta . preludeName) CustomPreludeName (Just 1)
         , 2 |> label "Module " @@= editTextField (projectMeta . preludeModule) CustomPreludeModule (Just 1)

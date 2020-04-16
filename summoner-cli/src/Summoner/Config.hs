@@ -80,6 +80,7 @@ data ConfigP (p :: Phase) = ConfigP
     , cGitignore  :: ![Text]
     , cNoUpload   :: !Any  -- ^ Do not upload to the GitHub (even if enabled)
     , cFiles      :: !(Map FilePath Source)  -- ^ Custom files
+    , cMakefile   :: !Decision
     } deriving stock (Generic)
 
 deriving stock instance
@@ -132,6 +133,7 @@ defaultConfig = ConfigP
     , cGitignore    = []
     , cNoUpload     = Any False
     , cFiles        = mempty
+    , cMakefile     = Idk
     }
 
 -- | Identifies how to read 'Config' data from the @.toml@ file.
@@ -159,6 +161,7 @@ configCodec = ConfigP
     <*> textArr             "gitignore"     .= cGitignore
     <*> Toml.any            "noUpload"      .= cNoUpload
     <*> filesCodec          "files"         .= cFiles
+    <*> decision            "makefile"      .= cMakefile
   where
     _GhcVer :: TomlBiMap GhcVer Toml.AnyValue
     _GhcVer = Toml._TextBy showGhcVer (maybeToRight "Wrong GHC version" . parseGhcVer)
@@ -233,6 +236,7 @@ finalise ConfigP{..} = ConfigP
     <*> pure cGitignore
     <*> pure cNoUpload
     <*> pure cFiles
+    <*> pure cMakefile
   where
     fin :: Text -> Last a -> Validation [Text] a
     fin name = maybe (Failure ["Missing field: " <> name]) Success . getLast

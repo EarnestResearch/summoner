@@ -51,6 +51,7 @@ data Settings = Settings
     , settingsStack          :: !Bool
     , settingsNoUpload       :: !Bool  -- ^ do not upload to GitHub
     , settingsFiles          :: ![TreeFs]  -- ^ Tree nodes of extra files
+    , settingsMakefile       :: !Bool  -- ^ whether to generate Makefile
     } deriving stock (Show)
 
 -- | Enum for supported build tools.

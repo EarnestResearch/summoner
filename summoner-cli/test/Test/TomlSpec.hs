@@ -109,4 +109,5 @@ genPartialConfig = do
     cGitignore  <- genTextArr
     cNoUpload   <- Any <$> Gen.bool
     cFiles <- Gen.map (Range.constant 0 10) (liftA2 (,) genString genSource)
+    cMakefile   <- genDecision
     pure ConfigP{..}

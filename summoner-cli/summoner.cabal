@@ -130,6 +130,7 @@ library
                            Summoner.Template.Doc
                            Summoner.Template.GitHub
                            Summoner.Template.Haskell
+                           Summoner.Template.Makefile
                            Summoner.Template.Mempty
                            Summoner.Template.Script
                            Summoner.Template.Stack
